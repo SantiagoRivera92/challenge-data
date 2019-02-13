@@ -15,6 +15,11 @@ else:
 	parsed_html = BeautifulSoup(html, 'html.parser')
 
 	title = parsed_html.h2.string.replace("\n", "")
+	formatAndDate = parsed_html.h2.parent.find_all("p")[1].get_text().replace("\n", "")
+
+	dateIndex = formatAndDate.index(" Date: ")
+	format = formatAndDate[8:dateIndex]
+	date = formatAndDate[dateIndex+7:]
 
 	decksOdd  = parsed_html.find_all("tr", {"class":"tournament-decklist-odd"})
 	decksEven = parsed_html.find_all("tr", {"class":"tournament-decklist-event"})
@@ -25,9 +30,13 @@ else:
 	exportableJson['title'] = title
 	exportableDecks = []
 
-	for i in range(0,16):
-		decks.append(decksOdd[i])
-		decks.append(decksEven[i])
+	deckSize = len(decksOdd) + len(decksEven)
+
+	for i in range(0,deckSize):
+		if (i%2 == 0):
+			decks.append(decksEven[i/2])
+		else:
+			decks.append(decksOdd[(i-1)/2])
 
 	for i in range(0,32):
 		print("Adding deck " + str(i+1))
@@ -60,7 +69,7 @@ else:
 		exportableDeck['s'] = exportableSide
 		exportableDecks.append(exportableDeck)
 	exportableJson['decks'] = exportableDecks
-	f = open(title + ".json", "w")
+	f = open(format + "/" + date + ".json", "w")
 	f.write(json.dumps(exportableJson))
 	f.close()
 	print("Done!")
