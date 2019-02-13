@@ -2,6 +2,7 @@
 import urllib
 import sys
 import json
+from time import sleep
 try: 
     from BeautifulSoup import BeautifulSoup
 except ImportError:
@@ -57,6 +58,7 @@ else:
 			if row == "":
 				main = 0
 			else:
+				sleep(0.05)
 				exportableCard = {}
 				exportableCard['q'] = row[:1]
 				search = json.loads(urllib.urlopen("https://api.scryfall.com/cards/search?q=!\""+ row[2:] +"\"%22").read())
