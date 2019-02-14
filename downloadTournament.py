@@ -62,7 +62,7 @@ else:
 				exportableCard = {}
 				exportableCard['q'] = row[:1]
 				search = json.loads(urllib.urlopen("https://api.scryfall.com/cards/search?q=!\""+ row[2:] +"\"%22").read())
-				exportableCard['id'] = search["data"][0]["oracle_id"]
+				exportableCard['id'] = search["data"][0]["id"]
 				if (main == 1):
 					exportableMain.append(exportableCard)
 				else:
