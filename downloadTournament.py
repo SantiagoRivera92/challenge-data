@@ -39,7 +39,7 @@ else:
 		else:
 			decks.append(decksOdd[(i-1)/2])
 
-	for i in range(0,32):
+	for i in range(0,1):
 		print("Adding deck " + str(i+1))
 		deck = decks[i]
 		exportableDeck = {}
@@ -60,8 +60,8 @@ else:
 			else:
 				sleep(0.05)
 				exportableCard = {}
-				exportableCard['q'] = row[:1]
-				search = json.loads(urllib.urlopen("https://api.scryfall.com/cards/search?q=!\""+ row[2:] +"\"%22").read())
+				exportableCard['q'] = row[:row.index(" ")]
+				search = json.loads(urllib.urlopen("https://api.scryfall.com/cards/search?q=!\""+ row[row.index(" ")+1:] +"\"%22").read())
 				exportableCard['id'] = search["data"][0]["id"]
 				if (main == 1):
 					exportableMain.append(exportableCard)
